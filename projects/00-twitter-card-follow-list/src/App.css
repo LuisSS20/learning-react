@@ -53,7 +53,21 @@
 
 .tw-card-follow-button.button-is-following:hover {
   color: crimson;
-  border: solid 1px;
-  border-color: rgb(255, 0, 0);
+  border: solid 1px red;
   background-color: rgba(238, 13, 13, 0.2);
+  transition: .3s ease all;
+}
+
+.tw-card-follow-button.button-is-following:hover .tw-followCard-text {
+  display: none;
+}
+
+.tw-followCard-stopFollow
+{
+  display: none;
+}
+
+.tw-card-follow-button.button-is-following:hover .tw-followCard-stopFollow
+{
+  display: block;
 }
