@@ -1,0 +1,46 @@
+.tw-card-article {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tw-card-header {
+  display: flex;
+  gap: 8px;
+}
+
+.tw-img-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 1000px;
+}
+
+.tw-card-info {
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+}
+
+.tw-card-username {
+  color: grey;
+}
+
+.tw-card-follow-button {
+  align-self: center;
+  cursor: pointer;
+  margin-left: 16px;
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-weight: bold;
+  border: 1px solid #000;
+  transition: .3s ease background-color;
+  border: 0px;
+  align-self: center;
+}
+
+.tw-card-aside {
+  margin-top: 5px;
+}
+
+.tw-card-follow-button:hover {
+  opacity: .8;
+}
