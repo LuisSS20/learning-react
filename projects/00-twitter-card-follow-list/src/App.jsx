@@ -1,4 +1,3 @@
-import React from "react"
 import './App.css'
 import { TwitterFollowCard } from "./TwitterFollowCard.jsx"
 
@@ -10,24 +9,30 @@ const users = [
     },
     {
         name: "Miguel Angel Durán",
-        userName: "Midudev",
+        userName: "midudev",
         isFollowing: true
-    }
+    },
+    {
+      name: "Adrian Martinez Navarro",
+      userName: "adrisui3",
+      isFollowing: false
+  }
 ]
 
 export function App(){
-
     return (
         <section className="App">
+          {
             users.map(({ userName, name, isFollowing }) => (
-                <TwitterFollowCard
-                    key={userName}
-                    userName={userName}
-                    initialIsFollowing={isFollowing}
-                >
-                    {name}
-                </TwitterFollowCard>
-                ))
+              <TwitterFollowCard
+                  key={userName}
+                  name={name}
+                  userName={userName}
+                  initialIsFollowing={isFollowing}
+              >
+              </TwitterFollowCard>
+              ))
+          }
         </section>
     )
 }
