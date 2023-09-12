@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState } from 'react'
 import './App.css'
-import confetti from 'canvas-confetti';
+import confetti from 'canvas-confetti'
 
 const TURNS = {
   X: "x",
@@ -33,8 +33,8 @@ function App() {
 
   const [board, setBoard] = useState(Array(9).fill(null))
   const [turn, setTurn] = useState(TURNS.X)
-  const [gameState, setGameState] = useState(GAMESTATE.inprocess);
-  const [winner, setWinner] = useState(null);
+  const [gameState, setGameState] = useState(GAMESTATE.inprocess)
+  const [winner, setWinner] = useState(null)
 
   const checkWinner = (board) =>{
     return checkVerticalWinner(board) || checkHorizontalWinner(board)
@@ -46,7 +46,7 @@ function App() {
     const sqrtValue = Math.sqrt(board.length)
     for (var i = 0; i < board.length; i+= sqrtValue)
     {
-      const horizontalLine = board.slice(i, i + sqrtValue);
+      const horizontalLine = board.slice(i, i + sqrtValue)
 
       // Get winner if all elements are equals
       if (horizontalLine.every((value) => value === horizontalLine[0] && value != null)) {
@@ -55,14 +55,14 @@ function App() {
     }
     // No winner
     return null
-  };
+  }
 
   const checkVerticalWinner = (board) => {
 
     const sqrtValue = Math.sqrt(board.length)
     for (var i = 0; i < sqrtValue; i++ )
     {
-      const verticalLine = [];
+      const verticalLine = []
 
       for (let j = i; j < board.length; j += sqrtValue) {
         verticalLine.push(board[j])
@@ -75,13 +75,13 @@ function App() {
     }
     // No winner
     return null
-  };
+  }
 
   const checkDiagonalWinner = (board) => {
 
     const sqrtValue = Math.sqrt(board.length)
-    const diagonalLine = [board[0]];
-    const reversedDiagonalLine = [board[sqrtValue-1]];
+    const diagonalLine = [board[0]]
+    const reversedDiagonalLine = [board[sqrtValue-1]]
 
     for (var i = 1; i < sqrtValue; i++ )
     {
@@ -96,7 +96,7 @@ function App() {
     }
     // No winner
     return null
-  };
+  }
 
   const resetGame = () => {
     setBoard(Array(9).fill(null))
@@ -128,7 +128,7 @@ function App() {
     if(newWinner)
     {
       confetti()
-      setWinner(newWinner);
+      setWinner(newWinner)
       setGameState(GAMESTATE.win)
     }
     // Check if it is a draw
