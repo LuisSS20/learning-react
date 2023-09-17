@@ -5,19 +5,34 @@ import { Square } from './components/Square.jsx'
 import { TURNS, GAMESTATE } from './constants.js'
 import { checkWinner, checkEndGame } from './logic/board.js'
 import { WinnerModal } from './components/WinnerModal'
+import { clearStorage, saveStorage } from './logic/storage'
 
 function App() {
 
-  const [board, setBoard] = useState(Array(9).fill(null))
-  const [turn, setTurn] = useState(TURNS.X)
-  const [gameState, setGameState] = useState(GAMESTATE.inprocess)
-  const [winner, setWinner] = useState(null)
+  const [board, setBoard] = useState( () =>{
+    const boardFromLocalStorage = window.localStorage.getItem('board') 
+    return boardFromLocalStorage ? JSON.parse(boardFromLocalStorage) : Array(9).fill(null)
+  })
+  const [turn, setTurn] = useState(() =>{
+    const turnFromLocalStorage = window.localStorage.getItem('turn') 
+    return turnFromLocalStorage ? JSON.parse(turnFromLocalStorage) : TURNS.X
+  })
+  const [gameState, setGameState] = useState(() => {
+    const gameStateFromLocalStorage = window.localStorage.getItem('gameState') 
+    return gameStateFromLocalStorage ? JSON.parse(gameStateFromLocalStorage) : GAMESTATE.inprocess
+  })
+  const [winner, setWinner] = useState(() => {
+    const winnerFromLocalStorage = window.localStorage.getItem('winner') 
+    return winnerFromLocalStorage ? JSON.parse(winnerFromLocalStorage) : null
+  })
 
   const resetGame = () => {
     setBoard(Array(9).fill(null))
     setGameState(GAMESTATE.inprocess)
     setTurn(TURNS.X)
     setWinner(null)
+    //Clean local storage
+    clearStorage();
   }
 
   const updatedBoard = (index) =>{
@@ -45,6 +60,9 @@ function App() {
     // Change turn if match status
     const newTurn = turn == TURNS.X ? TURNS.O : TURNS.X
     setTurn(newTurn)
+
+    // Save match 
+    saveStorage(newBoard, newTurn, gameState, newWinner)
   }
 
   return (
