@@ -30,7 +30,7 @@ const FollowMouse = () => {
 
   useEffect(() => {
     document.body.classList.toggle('hide-cursor', enabled)
-  })
+  }, [enabled])
 
   return (
     <>
