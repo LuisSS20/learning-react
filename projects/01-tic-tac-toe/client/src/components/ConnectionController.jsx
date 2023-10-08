@@ -4,8 +4,7 @@ import { ConnectionManager } from './ConnectionManager'
 import { ConnectionStatus } from './ConnectionStatus'
 
 
-export const ConnectionController = () => {
-  const [isConnected, setIsConnected] = useState(socket.connected)
+export const ConnectionController = ({isConnected, setIsConnected}) => {
 
   useEffect(() => {
     function onConnect() {

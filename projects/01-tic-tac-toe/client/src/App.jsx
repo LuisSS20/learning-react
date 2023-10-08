@@ -7,9 +7,12 @@ import { checkWinner, checkEndGame } from './logic/board.js'
 import { WinnerModal } from './components/WinnerModal'
 import { clearStorage, saveStorage } from './logic/storage'
 import { ConnectionController } from './components/ConnectionController'
+import {socket} from './socket'
  
 
 function App() {
+
+  const [isConnected, setIsConnected] = useState(socket.connected)
 
   const [board, setBoard] = useState( () =>{
     const boardFromLocalStorage = window.localStorage.getItem('board') 
@@ -98,7 +101,7 @@ function App() {
       
       <div>
         <button onClick={resetGame}>Start again</button>
-        <ConnectionController/>
+        <ConnectionController isConnected={isConnected} setIsConnected={setIsConnected}/>
       </div>
 
     </main>
