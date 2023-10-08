@@ -6,6 +6,8 @@ import { TURNS, GAMESTATE } from './constants.js'
 import { checkWinner, checkEndGame } from './logic/board.js'
 import { WinnerModal } from './components/WinnerModal'
 import { clearStorage, saveStorage } from './logic/storage'
+import { ConnectionController } from './components/ConnectionController'
+ 
 
 function App() {
 
@@ -94,7 +96,11 @@ function App() {
 
       <WinnerModal resetGame={resetGame} winner={winner} gameState={gameState}/>
       
-      <button onClick={resetGame}>Start again</button>
+      <div>
+        <button onClick={resetGame}>Start again</button>
+        <ConnectionController/>
+      </div>
+
     </main>
   ) 
 }
