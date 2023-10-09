@@ -8,11 +8,13 @@ import { WinnerModal } from './components/WinnerModal'
 import { clearStorage, saveStorage } from './logic/storage'
 import { ConnectionController } from './components/ConnectionController'
 import {socket} from './socket'
+import { createJSONToSend } from './logic/online/data'
  
 
 function App() {
 
   const [isConnected, setIsConnected] = useState(socket.connected)
+  const [isSearchingPlayers, setSearchingPlayers] = useState(false)
 
   const [board, setBoard] = useState( () =>{
     const boardFromLocalStorage = window.localStorage.getItem('board') 
@@ -68,6 +70,13 @@ function App() {
 
     // Save match 
     saveStorage(newBoard, newTurn, gameState, newWinner)
+
+    // ONLINE PART
+    const matchData = createJSONToSend(socket.id, newBoard, newTurn, gameState, newWinner)
+    console.log(matchData)
+    if (matchData) {
+      socket.emit('match data', matchData);
+    }
   }
 
   return (
@@ -101,7 +110,7 @@ function App() {
       
       <div>
         <button onClick={resetGame}>Start again</button>
-        <ConnectionController isConnected={isConnected} setIsConnected={setIsConnected}/>
+        <ConnectionController isConnected={isConnected} setIsConnected={setIsConnected} isSearchingPlayers={isSearchingPlayers} setSearchingPlayers={setSearchingPlayers}/>
       </div>
 
     </main>
