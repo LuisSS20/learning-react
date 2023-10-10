@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { socket } from '../socket';
-import { ConnectionManager } from './ConnectionManager'
 import { ConnectionStatus } from './ConnectionStatus'
+import ConnectionButton from './ConnectionButton';
+import DesconnectionButton from './DesconnectionButton';
 
 
-export const ConnectionController = ({isConnected, setIsConnected}) => {
+export const ConnectionController = ({isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers}) => {
 
   useEffect(() => {
     function onConnect() {
@@ -28,7 +29,8 @@ export const ConnectionController = ({isConnected, setIsConnected}) => {
   return (
     <div>
         <ConnectionStatus isConnected={isConnected}/>
-        <ConnectionManager />
+        <ConnectionButton setSearchingPlayers={setSearchingPlayers}/>
+        <DesconnectionButton setSearchingPlayers={setSearchingPlayers}/>
     </div>
   )
 }

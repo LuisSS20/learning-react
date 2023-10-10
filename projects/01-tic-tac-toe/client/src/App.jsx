@@ -5,6 +5,7 @@ import { Square } from './components/Square.jsx'
 import { TURNS, GAMESTATE } from './constants.js'
 import { checkWinner, checkEndGame } from './logic/board.js'
 import { WinnerModal } from './components/WinnerModal'
+import { PlayerList } from './components/PlayerList'
 import { clearStorage, saveStorage } from './logic/storage'
 import { ConnectionController } from './components/ConnectionController'
 import {socket} from './socket'
@@ -107,7 +108,8 @@ function App() {
       </section>
 
       <WinnerModal resetGame={resetGame} winner={winner} gameState={gameState}/>
-      
+      <PlayerList isSearchingPlayers={isSearchingPlayers} setSearchingPlayers={setSearchingPlayers}/>
+
       <div>
         <button onClick={resetGame}>Start again</button>
         <ConnectionController isConnected={isConnected} setIsConnected={setIsConnected} isSearchingPlayers={isSearchingPlayers} setSearchingPlayers={setSearchingPlayers}/>

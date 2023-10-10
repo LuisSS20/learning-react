@@ -1,5 +1,5 @@
 import Spinner from "./Spinner"
-import { Square } from "./Square"
+import {DesconnectionButton} from './DesconnectionButton'
 
 export function PlayerList ({isSearchingPlayers, setSearchingPlayers}) {
 
@@ -11,12 +11,11 @@ export function PlayerList ({isSearchingPlayers, setSearchingPlayers}) {
       <div className='text'>
         <h2>{text}</h2>
          {
-          // gameState != GAMESTATE.draw &&
-          <Spinnner/>
+          <Spinner/>
          }
         
         <footer>
-          <button>Exit</button>
+          <DesconnectionButton text="Exit" setSearchingPlayers={setSearchingPlayers}/>
         </footer>
       </div>
     </section>
