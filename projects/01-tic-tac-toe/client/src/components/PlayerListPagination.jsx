@@ -10,7 +10,6 @@ export const PlayerListPagination = ({currentPage, playersCount, playersPerPage,
     }
 
     for (let i = currentPage; i < currentPage + playersPerPage || i < currentPage; i++) {
-        console.log(currentPage, i)
         const className = `page-button ${currentPage == i ? 'is-selected' : ''}`
 
         elementsPagination.push(

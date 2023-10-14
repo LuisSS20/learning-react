@@ -188,3 +188,47 @@ button.next-previous-button {
   margin: 10px;
   width: 40px;
 }
+
+.footer-dialog {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  background: #111;
+  height: 200px;
+  width: 320px;
+  border: 2px solid #eee;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.header-text {
+  
+}
+
+button.close-button {
+  margin: 0;
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  background-color: #09f;
+  width: 25px;
+  height: 25px;
+  padding: 0px;
+  border-radius: 50%;
+}
+
+
+.prueba {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #111;
+  border: 2px solid #eee;
+  border-radius: 10px;
+  align-items: center;
+  padding: 5px;
+}

@@ -4,10 +4,13 @@ import { ConnectionStatus } from './ConnectionStatus'
 import ConnectionButton from './ConnectionButton';
 import DesconnectionButton from './DesconnectionButton';
 import { PlayerList } from './PlayerList';
+import ChallengeDialog from './ChallengeDialog'
+import HeaderDialog from './HeaderDialog'
 
 export const ConnectionController = ({isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers}) => {
 
   const [playersList, setPlayersList] = useState([])
+  const [challengeRequestList, setChallengeRequestList] = useState([])
 
   useEffect(() => {
     function onConnect() {
@@ -40,11 +43,19 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
       })
     }
 
+    function onReceiveChallenge({fromPlayer}) {
+      setChallengeRequestList((prevChallengeList) => {
+        return [...prevChallengeList, fromPlayer]
+      })
+
+    }
+
     socket.on('connect', onConnect)
     socket.on('disconnect', onDisconnect)
     socket.on('players', onGettingPlayers)
     socket.on('user connected', onGettingNewUserConnected)
     socket.on('user disconnected', onDisconnectUser)
+    socket.on('receive challenge', onReceiveChallenge)
 
     return () => {
       socket.off('connect', onConnect)
@@ -52,6 +63,7 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
       socket.off('players', onGettingPlayers)
       socket.off('user connected', onGettingNewUserConnected)
       socket.off('user disconnected', onDisconnectUser)
+      socket.off('receive challenge', onReceiveChallenge)
 
       socket.disconnect()
     };
@@ -64,10 +76,21 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
   return (
 
     <div>
-        {isSearchingPlayers && <PlayerList {...{isSearchingPlayers, setSearchingPlayers, playersList}}/>}
+        {isSearchingPlayers && <PlayerList {...{isSearchingPlayers, setSearchingPlayers, playersList, setChallengeRequestList}}/>}
         <ConnectionStatus isConnected={isConnected}/>
         <ConnectionButton setSearchingPlayers={setSearchingPlayers}/>
         <DesconnectionButton setSearchingPlayers={setSearchingPlayers}/>
+        {
+          challengeRequestList && challengeRequestList.map(
+            (rivalPlayerId) => {
+              console.log('rivalplayerid',rivalPlayerId)
+              return (
+                <ChallengeDialog playerName={rivalPlayerId}/>
+              );
+            }
+          ) 
+        }
+        {/* <HeaderDialog text={"Esto es una Prueba!!"}/> */}
     </div>
   )
 }

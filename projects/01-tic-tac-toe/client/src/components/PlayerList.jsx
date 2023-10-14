@@ -4,7 +4,7 @@ import ChallengePlayer from "./ChallengePlayer"
 import { useState } from 'react';
 import PlayerListPagination from "./PlayerListPagination";
 
-export function PlayerList ({isSearchingPlayers, setSearchingPlayers, playersList}) {
+export function PlayerList ({isSearchingPlayers, setSearchingPlayers, playersList, setChallengeRequestList}) {
 
   if(!isSearchingPlayers) return null
   const text = 'Looking for players...'
@@ -43,7 +43,7 @@ export function PlayerList ({isSearchingPlayers, setSearchingPlayers, playersLis
            {currentPlayers && currentPlayers.map((player, index) => {
             if (player) {
               return (
-                <ChallengePlayer sockeid={player.playerId} key={'prueba ' + index}/>
+                <ChallengePlayer sockeid={player.playerId} key={player.playerId}/>
               );
             }
             return null;

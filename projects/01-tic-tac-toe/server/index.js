@@ -2,6 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import http from 'http'
 import {Server} from 'socket.io'
+import { Console } from 'console'
 
 dotenv.config()
 const PORT = process.env.PORT
@@ -29,6 +30,12 @@ io.on('connect', (socket) => {
         socket.broadcast.emit("user disconnected", {
             playerId: socket.id,
         });
+    })
+
+    socket.on('challenge player', ({toPlayer}) => {
+        socket.to(toPlayer).emit('receive challenge', {
+            fromPlayer: socket.id
+        })
     })
 
     socket.onAny((event, ...args) => {
