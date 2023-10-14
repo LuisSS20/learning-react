@@ -78,6 +78,8 @@ function App() {
     if (matchData) {
       socket.emit('match data', matchData);
     }
+
+    console.log(playersList)
   }
 
   return (
@@ -108,11 +110,9 @@ function App() {
       </section>
 
       <WinnerModal resetGame={resetGame} winner={winner} gameState={gameState}/>
-      <PlayerList isSearchingPlayers={isSearchingPlayers} setSearchingPlayers={setSearchingPlayers}/>
-
       <div>
         <button onClick={resetGame}>Start again</button>
-        <ConnectionController isConnected={isConnected} setIsConnected={setIsConnected} isSearchingPlayers={isSearchingPlayers} setSearchingPlayers={setSearchingPlayers}/>
+        <ConnectionController {...{isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers}} />
       </div>
 
     </main>

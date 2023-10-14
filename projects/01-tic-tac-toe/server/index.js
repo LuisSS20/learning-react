@@ -25,12 +25,31 @@ io.on('connect', (socket) => {
 
     socket.on('disconnect', () => {
         console.log('- A user disconnected')
+        // notify existing users
+        socket.broadcast.emit("user disconnected", {
+            playerId: socket.id,
+        });
     })
 
     socket.onAny((event, ...args) => {
         console.log(event, args);
     });
 
+})
+
+io.on('connection', (socket) => {
+    const players = [];
+    for (let [id, socket] of io.of("/").sockets) {
+    players.push({
+        playerId: id,
+    });
+    }
+    socket.emit("players", players);
+
+    // notify existing users
+    socket.broadcast.emit("user connected", {
+        playerId: socket.id,
+    });
 })
 
 server.listen(PORT, () => {
