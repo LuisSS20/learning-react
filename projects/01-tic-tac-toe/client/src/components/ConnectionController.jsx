@@ -20,8 +20,9 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
     }
 
     function onGettingPlayers(players) {
-      setPlayersList(players)
-      console.log(players)
+      setPlayersList(() => {
+        return players.filter((player) => socket.id !== player.playerId)
+      })
     }
 
     function onGettingNewUserConnected(user) {
@@ -35,7 +36,7 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
 
     function onDisconnectUser(user) {
       setPlayersList((prevPlayersList) => {
-        return prevPlayersList.filter((user_a) => user.playerId !== user_a.playerId)
+        return prevPlayersList.filter((player) => user.playerId !== player.playerId)
       })
     }
 
