@@ -47,7 +47,16 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
       setChallengeRequestList((prevChallengeList) => {
         return [...prevChallengeList, fromPlayer]
       })
+    }
 
+    function onChallengeResponse({fromPlayer, response}) {
+      if(response)
+      {
+        // TODO
+      }
+      else {
+        
+      }
     }
 
     socket.on('connect', onConnect)
@@ -56,6 +65,7 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
     socket.on('user connected', onGettingNewUserConnected)
     socket.on('user disconnected', onDisconnectUser)
     socket.on('receive challenge', onReceiveChallenge)
+    socket.on('challenge call', onChallengeResponse)
 
     return () => {
       socket.off('connect', onConnect)
@@ -64,6 +74,7 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
       socket.off('user connected', onGettingNewUserConnected)
       socket.off('user disconnected', onDisconnectUser)
       socket.off('receive challenge', onReceiveChallenge)
+      socket.off('challenge call', onChallengeResponse)
 
       socket.disconnect()
     };
@@ -83,9 +94,8 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
         {
           challengeRequestList && challengeRequestList.map(
             (rivalPlayerId) => {
-              console.log('rivalplayerid',rivalPlayerId)
               return (
-                <ChallengeDialog playerName={rivalPlayerId}/>
+                <ChallengeDialog socket={socket} playerId={rivalPlayerId} setChallengeRequestList={setChallengeRequestList} key={rivalPlayerId}/>
               );
             }
           ) 

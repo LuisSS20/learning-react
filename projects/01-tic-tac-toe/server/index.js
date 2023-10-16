@@ -38,6 +38,13 @@ io.on('connect', (socket) => {
         })
     })
 
+    socket.on('challenge response', ({toPlayer, response}) => {
+        socket.to(toPlayer).emit('challenge call', {
+            fromPlayer: socket.id,
+            response: response
+        })
+    })
+
     socket.onAny((event, ...args) => {
         console.log(event, args);
     });
