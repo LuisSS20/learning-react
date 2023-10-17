@@ -47,7 +47,10 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
 
     function onReceiveChallenge({fromPlayer}) {
       setChallengeRequestList((prevChallengeList) => {
-        return [...prevChallengeList, fromPlayer]
+        if(!prevChallengeList.includes(fromPlayer))
+          return [...prevChallengeList, fromPlayer]
+        else
+          return prevChallengeList
       })
     }
 
