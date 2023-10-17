@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import { OnlineMatch } from "../logic/online/objects";
 
-export const ChallengeDialog = ({socket, playerId, setChallengeRequestList}) => {
+export const ChallengeDialog = ({socket, playerId, setChallengeRequestList, setOnlineMatch}) => {
 
     const [show, setShow] = useState(false)
     let showTimeOut;
@@ -19,14 +20,13 @@ export const ChallengeDialog = ({socket, playerId, setChallengeRequestList}) => 
     const sendChallengeResponse = (accepted) => {
         if(accepted)
         {
-            ;
+            setOnlineMatch(new OnlineMatch(true, playerId))
         }
         else{
             setChallengeRequestList((prevChallengeList) => {
                 console.log('Eliminate request from ', playerId)
                 return prevChallengeList.filter( playerId => playerId !== playerId )
             })
-
         }
 
         socket.emit("challenge response", {

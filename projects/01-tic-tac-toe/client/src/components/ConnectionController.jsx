@@ -6,9 +6,9 @@ import DesconnectionButton from './DesconnectionButton';
 import { PlayerList } from './PlayerList';
 import ChallengeDialog from './ChallengeDialog'
 import AlertList from './AlertList'
-import { Alert } from '../logic/online/alertObj';
+import { Alert, OnlineMatch } from '../logic/online/objects';
 
-export const ConnectionController = ({isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers}) => {
+export const ConnectionController = ({isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers, setOnlineMatch}) => {
 
   const [playersList, setPlayersList] = useState([])
   const [challengeRequestList, setChallengeRequestList] = useState([])
@@ -64,13 +64,13 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
         setAlertsList((prevAlertsList) => {
           return prevAlertsList.concat(new Alert(prevAlertsList.length, fromPlayer + ' has accepted the challenge!'))
         })
-        console.log(alertsList)
+        // Set OnlineMatch
+        setOnlineMatch(new OnlineMatch(true, fromPlayer))
       }
       else {
         setAlertsList((prevAlertsList) => {
           return prevAlertsList.concat(new Alert(prevAlertsList.length, fromPlayer + ' has refused the challenge!'))
         })
-        console.log(alertsList)
       }
     }
 
@@ -112,7 +112,7 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
           challengeRequestList && challengeRequestList.map(
             (rivalPlayerId) => {
               return (
-                <ChallengeDialog socket={socket} playerId={rivalPlayerId} setChallengeRequestList={setChallengeRequestList} key={rivalPlayerId}/>
+                <ChallengeDialog setOnlineMatch={setOnlineMatch} socket={socket} playerId={rivalPlayerId} setChallengeRequestList={setChallengeRequestList} key={rivalPlayerId}/>
               );
             }
           ) 
