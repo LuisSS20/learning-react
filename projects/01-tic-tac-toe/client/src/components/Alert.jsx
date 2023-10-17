@@ -11,7 +11,7 @@ export const Alert = ({alert, setAlertsList}) => {
     useEffect(() => {
         const timeId = setTimeout(() => {
             deleteAlert()
-          }, 10000)
+          }, 5000)
     }, [])
 
     return (
