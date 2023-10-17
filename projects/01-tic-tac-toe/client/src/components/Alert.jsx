@@ -1,6 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export const Alert = ({alert, setAlertsList}) => {
+
+    const [show, setShow] = useState(false)
+    let showTimeOut, hideTimeOut, deleteTimeOut;
 
     const deleteAlert = () => {
         setAlertsList((prevAlertList) => {
@@ -9,13 +12,28 @@ export const Alert = ({alert, setAlertsList}) => {
     }
 
     useEffect(() => {
-        const timeId = setTimeout(() => {
-            deleteAlert()
-          }, 5000)
-    }, [])
 
+        showTimeOut = setTimeout(() => {
+            setShow(true)
+          }, 50)
+
+        hideTimeOut = setTimeout(() => {
+            setShow(false)
+            deleteTimeOut = setTimeout(() => {
+                setShow(false)
+                deleteAlert()
+              }, 1000)
+          }, 10000)
+
+          return () => {
+            clearTimeout(showTimeOut);
+            clearTimeout(hideTimeOut);
+            clearTimeout(deleteTimeOut);
+          };
+    }, [])
+    
     return (
-        <li>
+        <li className={`${show ? 'show' : ''}`}>
             <button onClick={deleteAlert} className="close-button">X</button>
             <p className="header-text">{alert.text}</p>
         </li>

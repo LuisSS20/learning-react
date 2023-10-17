@@ -191,7 +191,7 @@ button.next-previous-button {
 
 .footer-dialog {
   position: fixed;
-  bottom: 0;
+  bottom: -10vh;
   right: 0;
   background: #111;
   height: 200px;
@@ -203,6 +203,11 @@ button.next-previous-button {
   justify-content: center;
   align-items: center;
   gap: 5px;
+  transition: bottom 0.8s ease-out;
+}
+
+.footer-dialog.show {
+  bottom: 0vh;
 }
 
 button.close-button {
@@ -232,9 +237,17 @@ button.close-button {
 }
 
 .alert-list li {
+  position: relative;
+  right: -150vw;
   border: 2px solid #eee;
   margin: 15px 0px;
   text-decoration: none;
   background: #111;
   display: flex;
+  transition: right 0.8s ease-out;
+  z-index: 10;
+}
+
+.alert-list li.show {
+  right: 0vw;
 }

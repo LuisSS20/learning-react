@@ -1,4 +1,20 @@
+import { useState, useEffect } from "react";
+
 export const ChallengeDialog = ({socket, playerId, setChallengeRequestList}) => {
+
+    const [show, setShow] = useState(false)
+    let showTimeOut;
+
+    useEffect(() => {
+
+        showTimeOut = setTimeout(() => {
+            setShow(true)
+          }, 50)
+
+          return () => {
+            clearTimeout(showTimeOut);
+          };
+    }, [])
 
     const sendChallengeResponse = (accepted) => {
         if(accepted)
@@ -20,7 +36,7 @@ export const ChallengeDialog = ({socket, playerId, setChallengeRequestList}) => 
     }
 
     return (
-        <div className="footer-dialog">
+        <div className={`footer-dialog ${show ? 'show' : ''}`}>
             <h2>{playerId} has challenge you!</h2>
             <div>
                 <button onClick={() => {sendChallengeResponse(true)}}>Accept</button>
