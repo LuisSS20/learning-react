@@ -49,7 +49,7 @@ export function PlayerList ({isSearchingPlayers, setSearchingPlayers, playersLis
             return null;
           })}
 
-          <PlayerListPagination currentPage={currentPage} paginate={paginate} playersCount={playersList.length} playersPerPage={playersPerPage} {...{previousPage, nextPage}}/>
+          {playersList.length > 0 && <PlayerListPagination currentPage={currentPage} paginate={paginate} playersCount={playersList.length} playersPerPage={playersPerPage} {...{previousPage, nextPage}}/>}
         
         <footer>
           <DesconnectionButton text="Exit" setSearchingPlayers={setSearchingPlayers}/>
