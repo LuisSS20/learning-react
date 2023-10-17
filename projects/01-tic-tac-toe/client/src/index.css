@@ -205,15 +205,11 @@ button.next-previous-button {
   gap: 5px;
 }
 
-.header-text {
-  
-}
-
 button.close-button {
   margin: 0;
-  position: absolute;
+  position: relative;
   top: -15px;
-  left: -15px;
+  left: -10px;
   background-color: #09f;
   width: 25px;
   height: 25px;
@@ -222,13 +218,23 @@ button.close-button {
 }
 
 
-.prueba {
+.alert-list {
   position: fixed;
   top: 20px;
   right: 20px;
-  background: #111;
-  border: 2px solid #eee;
-  border-radius: 10px;
   align-items: center;
   padding: 5px;
+  list-style-type: none;
+}
+
+.alert-list p {
+  margin: 3px;
+}
+
+.alert-list li {
+  border: 2px solid #eee;
+  margin: 15px 0px;
+  text-decoration: none;
+  background: #111;
+  display: flex;
 }

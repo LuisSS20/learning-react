@@ -39,7 +39,7 @@ io.on('connect', (socket) => {
     })
 
     socket.on('challenge response', ({toPlayer, response}) => {
-        socket.to(toPlayer).emit('challenge call', {
+        socket.to(toPlayer).emit('challenge response', {
             fromPlayer: socket.id,
             response: response
         })

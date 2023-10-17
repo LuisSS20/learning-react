@@ -5,12 +5,14 @@ import ConnectionButton from './ConnectionButton';
 import DesconnectionButton from './DesconnectionButton';
 import { PlayerList } from './PlayerList';
 import ChallengeDialog from './ChallengeDialog'
-import HeaderDialog from './HeaderDialog'
+import AlertList from './AlertList'
+import { Alert } from '../logic/online/alertObj';
 
 export const ConnectionController = ({isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers}) => {
 
   const [playersList, setPlayersList] = useState([])
   const [challengeRequestList, setChallengeRequestList] = useState([])
+  const [alertsList, setAlertsList] = useState([])
 
   useEffect(() => {
     function onConnect() {
@@ -50,12 +52,19 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
     }
 
     function onChallengeResponse({fromPlayer, response}) {
+      
       if(response)
       {
-        // TODO
+        setAlertsList((prevAlertsList) => {
+          return prevAlertsList.concat(new Alert(prevAlertsList.length, fromPlayer + ' has accepted the challenge!'))
+        })
+        console.log(alertsList)
       }
       else {
-        
+        setAlertsList((prevAlertsList) => {
+          return prevAlertsList.concat(new Alert(prevAlertsList.length, fromPlayer + ' has refused the challenge!'))
+        })
+        console.log(alertsList)
       }
     }
 
@@ -65,7 +74,7 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
     socket.on('user connected', onGettingNewUserConnected)
     socket.on('user disconnected', onDisconnectUser)
     socket.on('receive challenge', onReceiveChallenge)
-    socket.on('challenge call', onChallengeResponse)
+    socket.on('challenge response', onChallengeResponse)
 
     return () => {
       socket.off('connect', onConnect)
@@ -74,7 +83,7 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
       socket.off('user connected', onGettingNewUserConnected)
       socket.off('user disconnected', onDisconnectUser)
       socket.off('receive challenge', onReceiveChallenge)
-      socket.off('challenge call', onChallengeResponse)
+      socket.off('challenge response', onChallengeResponse)
 
       socket.disconnect()
     };
@@ -100,7 +109,7 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
             }
           ) 
         }
-        {/* <HeaderDialog text={"Esto es una Prueba!!"}/> */}
+        {alertsList &&  <AlertList alertsList={alertsList} setAlertsList={setAlertsList}/>}
     </div>
   )
 }
