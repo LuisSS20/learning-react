@@ -22,6 +22,9 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
 
     function onDisconnect() {
       setIsConnected(false)
+      setAlertsList([])
+      setPlayersList([])
+      setChallengeRequestList([])
     }
 
     function onGettingPlayers(players) {
@@ -100,9 +103,11 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
 
     <div>
         {isSearchingPlayers && <PlayerList {...{isSearchingPlayers, setSearchingPlayers, playersList, setChallengeRequestList}}/>}
-        <ConnectionStatus isConnected={isConnected}/>
+        <section className='flex-items-centered'>
         <ConnectionButton setSearchingPlayers={setSearchingPlayers}/>
-        <DesconnectionButton setSearchingPlayers={setSearchingPlayers}/>
+        <ConnectionStatus isConnected={isConnected}/>
+        </section>
+        {/* <DesconnectionButton setSearchingPlayers={setSearchingPlayers}/> */}
         {
           challengeRequestList && challengeRequestList.map(
             (rivalPlayerId) => {

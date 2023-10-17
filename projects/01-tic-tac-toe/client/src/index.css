@@ -251,3 +251,8 @@ button.close-button {
 .alert-list li.show {
   right: 0vw;
 }
+
+.flex-items-centered{
+  display: flex;
+  align-items: center;
+}
