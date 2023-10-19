@@ -3,7 +3,8 @@ export function Alert(position, text) {
     this.text = text;
 }
 
-export function OnlineMatch(isPlaying, rivalPlayer) {
+export function OnlineMatch(isPlaying, rivalPlayer, myTurn) {
     this.isPlaying = isPlaying;
-    this.rivalPlayer = rivalPlayer
+    this.rivalPlayer = rivalPlayer;
+    this.myTurn = myTurn;
 }

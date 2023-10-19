@@ -20,7 +20,7 @@ export const ChallengeDialog = ({socket, playerId, setChallengeRequestList, setO
     const sendChallengeResponse = (accepted) => {
         if(accepted)
         {
-            setOnlineMatch(new OnlineMatch(true, playerId))
+            ;
         }
         else{
             setChallengeRequestList((prevChallengeList) => {

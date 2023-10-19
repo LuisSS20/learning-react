@@ -7,6 +7,7 @@ import { PlayerList } from './PlayerList';
 import ChallengeDialog from './ChallengeDialog'
 import AlertList from './AlertList'
 import { Alert, OnlineMatch } from '../logic/online/objects';
+import { TURNS } from '../constants';
 
 export const ConnectionController = ({isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers, setOnlineMatch}) => {
 
@@ -64,14 +65,18 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
         setAlertsList((prevAlertsList) => {
           return prevAlertsList.concat(new Alert(prevAlertsList.length, fromPlayer + ' has accepted the challenge!'))
         })
-        // Set OnlineMatch
-        setOnlineMatch(new OnlineMatch(true, fromPlayer))
+        
       }
       else {
         setAlertsList((prevAlertsList) => {
           return prevAlertsList.concat(new Alert(prevAlertsList.length, fromPlayer + ' has refused the challenge!'))
         })
       }
+    }
+
+    function onStartMatch({rivalPlayer, firstTurn}){
+        // Set OnlineMatch
+        setOnlineMatch(new OnlineMatch(true, rivalPlayer, firstTurn ? TURNS.X : TURNS.O))
     }
 
     socket.on('connect', onConnect)
@@ -81,6 +86,7 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
     socket.on('user disconnected', onDisconnectUser)
     socket.on('receive challenge', onReceiveChallenge)
     socket.on('challenge response', onChallengeResponse)
+    socket.on('start match', onStartMatch)
 
     return () => {
       socket.off('connect', onConnect)
@@ -90,6 +96,7 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
       socket.off('user disconnected', onDisconnectUser)
       socket.off('receive challenge', onReceiveChallenge)
       socket.off('challenge response', onChallengeResponse)
+      socket.off('start match', onStartMatch)
 
       socket.disconnect()
     };

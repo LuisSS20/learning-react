@@ -20,6 +20,15 @@ app.get('/', (req, res) => {
     res.send('<h1>Hello world</h1>')
 })
 
+function whoGoFirst(playerA, playerB)
+{
+    if (Math.random() < 0.5) {
+        return playerA;
+    } else {
+        return playerB;
+    }
+}
+
 io.on('connect', (socket) => {
     
     console.log('- A user connected')
@@ -41,8 +50,24 @@ io.on('connect', (socket) => {
     socket.on('challenge response', ({toPlayer, response}) => {
         socket.to(toPlayer).emit('challenge response', {
             fromPlayer: socket.id,
-            response: response
+            response: response,
         })
+
+        // response == true => send info to start match
+        if(response)
+        {
+            const playerFirstTurn = whoGoFirst(toPlayer, socket.id)
+            
+            socket.emit('start match', {
+                rivalPlayer: socket.id,
+                firstTurn: socket.id === playerFirstTurn ? true : false
+            })
+
+            socket.to(toPlayer).emit('start match', {
+                rivalPlayer: socket.id,
+                firstTurn: toPlayer === playerFirstTurn ? true : false
+            })
+        }
     })
 
     socket.onAny((event, ...args) => {
