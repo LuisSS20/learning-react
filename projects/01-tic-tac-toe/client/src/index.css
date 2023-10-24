@@ -291,6 +291,14 @@ button.close-button {
   padding: 10px;
 }
 
+.username-dialog {
+  border: 2px solid #eee;
+  border-radius: 5px;
+  width: 300px;
+  padding: 10px;
+  background-color: black;
+}
+
 @media screen and (max-width: 768px) {
 
   main {

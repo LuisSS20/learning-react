@@ -20,6 +20,7 @@ function App() {
   const [isConnected, setIsConnected] = useState(socket.connected)
   const [isSearchingPlayers, setSearchingPlayers] = useState(false)
   const [onlineMatch, setOnlineMatch] = useState(new OnlineMatch(false, ''))
+  const [username, setUsername] = useState('')
   // END Online variables
 
   const [board, setBoard] = useState( () =>{
@@ -148,7 +149,7 @@ function App() {
         <WinnerModal {...{resetGame, winner, gameState, onlineMatch}} />
         <div>
           {!isConnected && <button onClick={resetGame}>Start again</button>}
-          <ConnectionController {...{isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers, onlineMatch, setOnlineMatch, setBoard, setGameState, setTurn, setWinner, resetGame, winnerConffetti}} />
+          <ConnectionController {...{username, setUsername, isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers, onlineMatch, setOnlineMatch, setBoard, setGameState, setTurn, setWinner, resetGame, winnerConffetti}} />
         </div>
       </section>
     </main>

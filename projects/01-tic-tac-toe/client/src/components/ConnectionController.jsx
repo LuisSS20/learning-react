@@ -9,7 +9,7 @@ import AlertList from './AlertList'
 import { Alert, OnlineMatch } from '../logic/online/objects';
 import { TURNS } from '../constants';
 
-export const ConnectionController = ({isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers, onlineMatch, setOnlineMatch, setBoard, setGameState, setTurn, setWinner, resetGame, winnerConffetti}) => {
+export const ConnectionController = ({username, setUsername, isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers, onlineMatch, setOnlineMatch, setBoard, setGameState, setTurn, setWinner, resetGame, winnerConffetti}) => {
 
   const [playersList, setPlayersList] = useState([])
   const [challengeRequestList, setChallengeRequestList] = useState([])
@@ -19,6 +19,7 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
     setIsConnected(false)
     setSearchingPlayers(false)
     setOnlineMatch(new OnlineMatch(false, '', null))
+    setUsername('')
 
     resetGame()
     socket.disconnect()
@@ -149,7 +150,7 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
         {!onlineMatch.isPlaying && isSearchingPlayers && <PlayerList {...{isSearchingPlayers, setSearchingPlayers, playersList, setChallengeRequestList, handleDisconnection}}/>}
         <ConnectionStatus isConnected={isConnected}/>
         <section className='flex-items-centered'>
-          <ConnectionButton setSearchingPlayers={setSearchingPlayers}/>
+          <ConnectionButton {...{setSearchingPlayers, username, setUsername}}/>
           <DisconnectionButton handleDisconnection={handleDisconnection}/>
         </section>
         {
