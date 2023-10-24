@@ -17,7 +17,6 @@
 
 body {
   margin: 0;
-  display: flex;
   justify-content: center;
   min-width: 320px;
   min-height: 100vh;
@@ -29,15 +28,30 @@ body {
   box-sizing: border-box;
 }
 
+main {
+  display: flex;
+  flex-direction: row;
+  justify-content: normal;
+  align-items: stretch;
+  align-content: space-between;}
+
+main > *{
+  margin: 15px;
+}
+
 .board {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   width: fit-content;
   margin: 40px auto;
-  text-align: center;
+  align-self: center;
 }
 
 .board h1 {
   color: #eee;
   margin-bottom: 16px;
+  font-size:xx-large
 }
 
 .board button {
@@ -62,6 +76,7 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
+  width: fit-content;
 }
 
 .turn {
@@ -83,6 +98,7 @@ body {
 
 .square.is-selected, .page-button.is-selected {
   color: #fff;
+  border-color: #FFD700;
   background: #09f;
 }
 
@@ -255,4 +271,36 @@ button.close-button {
 .flex-items-centered{
   display: flex;
   align-items: center;
+}
+
+.container-online-info {
+  width: fit-content;
+}
+
+.container-online-info > h2 {
+  border: 2px solid #eee;
+  border-radius: 5px;
+  padding: 10px;
+  min-width: 200px;
+}
+
+.online-info {
+  border: 2px solid #eee;
+  border-radius: 5px;
+  margin-top: 30px;
+  padding: 10px;
+}
+
+@media screen and (max-width: 768px) {
+
+  main {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .container-online-info {
+    order: 2;
+    margin: 0;
+  }
+
 }

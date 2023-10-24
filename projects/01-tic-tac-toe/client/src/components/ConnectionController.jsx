@@ -99,6 +99,7 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
     function onStartMatch({rivalPlayer, firstTurn}){
         setOnlineMatch(new OnlineMatch(true, rivalPlayer, firstTurn ? TURNS.X : TURNS.O))
         resetGame()
+        addNewAlert(`New game against ${rivalPlayer} has started!`)
     }
 
     function onUpdateMatch(matchData) {
@@ -147,7 +148,6 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
     <div>
         {!onlineMatch.isPlaying && isSearchingPlayers && <PlayerList {...{isSearchingPlayers, setSearchingPlayers, playersList, setChallengeRequestList, handleDisconnection}}/>}
         <ConnectionStatus isConnected={isConnected}/>
-        {onlineMatch.rivalPlayer && <p><strong>Rival player: </strong>{onlineMatch.rivalPlayer}</p>}
         <section className='flex-items-centered'>
           <ConnectionButton setSearchingPlayers={setSearchingPlayers}/>
           <DisconnectionButton handleDisconnection={handleDisconnection}/>

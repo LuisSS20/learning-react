@@ -11,6 +11,8 @@ import { ConnectionController } from './components/ConnectionController'
 import {socket} from './socket'
 import { createJSONToSend } from './logic/online/data'
 import { OnlineMatch } from './logic/online/objects'
+import { PlayerTurn } from './components/PlayerTurn'
+
 
 function App() {
 
@@ -105,38 +107,50 @@ function App() {
   }
 
   return (
-    <main className='board'>
-      <h1>Tic Tac Toe</h1>
-      <section className='game'>
-        {
-          board.map((value, index) => {
-            return (
-              <Square
-                key={index}
-                index={index}
-                updatedBoard={updatedBoard}
-              >
-                {value}
-              </Square>
-            )
-          })
-        }
-      </section>
-      <section className='turn'>
-        <Square isSelected={turn === TURNS.X}>
-          {TURNS.X}
-        </Square>
-        <Square isSelected={turn == TURNS.O}>
-          {TURNS.O}
-        </Square>
-      </section>
+    <main>
+      { onlineMatch.isPlaying &&
+        <section className='container-online-info'>
+          <h2>Online stats</h2>
+          <div className='online-info'>
+            <p>Your turn</p>
+            <PlayerTurn onlineMatch={onlineMatch} />
+            {onlineMatch.rivalPlayer && <div><p><strong>Rival player</strong></p><p>{onlineMatch.rivalPlayer}</p></div>}
+          </div>
+        </section>
+      }
+      
+      <section className='board'>
+        <h1>Tic Tac Toe</h1>
+        <section className='game'>
+          {
+            board.map((value, index) => {
+              return (
+                <Square
+                  key={index}
+                  index={index}
+                  updatedBoard={updatedBoard}
+                >
+                  {value}
+                </Square>
+              )
+            })
+          }
+        </section>
+        <section className='turn'>
+          <Square isSelected={turn === TURNS.X}>
+            {TURNS.X}
+          </Square>
+          <Square isSelected={turn == TURNS.O}>
+            {TURNS.O}
+          </Square>
+        </section>
 
-      <WinnerModal {...{resetGame, winner, gameState, onlineMatch}} />
-      <div>
-        {!isConnected && <button onClick={resetGame}>Start again</button>}
-        <ConnectionController {...{isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers, onlineMatch, setOnlineMatch, setBoard, setGameState, setTurn, setWinner, resetGame, winnerConffetti}} />
-      </div>
-
+        <WinnerModal {...{resetGame, winner, gameState, onlineMatch}} />
+        <div>
+          {!isConnected && <button onClick={resetGame}>Start again</button>}
+          <ConnectionController {...{isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers, onlineMatch, setOnlineMatch, setBoard, setGameState, setTurn, setWinner, resetGame, winnerConffetti}} />
+        </div>
+      </section>
     </main>
   ) 
 }
