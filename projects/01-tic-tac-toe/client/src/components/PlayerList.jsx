@@ -1,10 +1,10 @@
 import Spinner from "./Spinner"
-import {DesconnectionButton} from './DesconnectionButton'
+import {DisconnectionButton} from './DisconnectionButton'
 import ChallengePlayer from "./ChallengePlayer"
 import { useState } from 'react';
 import PlayerListPagination from "./PlayerListPagination";
 
-export function PlayerList ({isSearchingPlayers, setSearchingPlayers, playersList, setChallengeRequestList}) {
+export function PlayerList ({isSearchingPlayers, setSearchingPlayers, playersList, setChallengeRequestList, handleDisconnection}) {
 
   if(!isSearchingPlayers) return null
   const text = 'Looking for players...'
@@ -52,7 +52,7 @@ export function PlayerList ({isSearchingPlayers, setSearchingPlayers, playersLis
           {playersList.length > 0 && <PlayerListPagination currentPage={currentPage} paginate={paginate} playersCount={playersList.length} playersPerPage={playersPerPage} {...{previousPage, nextPage}}/>}
         
         <footer>
-          <DesconnectionButton text="Exit" setSearchingPlayers={setSearchingPlayers}/>
+          <DisconnectionButton text="Exit" handleDisconnection={handleDisconnection}/>
         </footer>
       </div>
     }

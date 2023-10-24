@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import http from 'http'
 import {Server} from 'socket.io'
 import { Console } from 'console'
+import { match } from 'assert'
 
 dotenv.config()
 const PORT = process.env.PORT
@@ -57,9 +58,9 @@ io.on('connect', (socket) => {
         if(response)
         {
             const playerFirstTurn = whoGoFirst(toPlayer, socket.id)
-            
+
             socket.emit('start match', {
-                rivalPlayer: socket.id,
+                rivalPlayer: toPlayer,
                 firstTurn: socket.id === playerFirstTurn ? true : false
             })
 
@@ -68,6 +69,14 @@ io.on('connect', (socket) => {
                 firstTurn: toPlayer === playerFirstTurn ? true : false
             })
         }
+    })
+
+    socket.on('update match', (matchData) => {
+        socket.to(matchData.toPlayer).emit('update match', matchData)
+    })
+
+    socket.on('user disconnect from match', (rivalPlayer) => {
+        socket.to(rivalPlayer).emit('user disconnect from match', {fromPlayer: socket.id})
     })
 
     socket.onAny((event, ...args) => {

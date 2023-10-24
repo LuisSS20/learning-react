@@ -20,7 +20,10 @@ export const ChallengeDialog = ({socket, playerId, setChallengeRequestList, setO
     const sendChallengeResponse = (accepted) => {
         if(accepted)
         {
-            ;
+            setChallengeRequestList((prevChallengeList) => {
+                console.log('Eliminate request from ', playerId)
+                return prevChallengeList.filter( playerId => playerId !== playerId )
+            })
         }
         else{
             setChallengeRequestList((prevChallengeList) => {

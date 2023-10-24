@@ -1,7 +1,9 @@
 import { GAMESTATE } from "../constants"
 import { Square } from "./Square"
+import { socket } from "../socket"
+import { onSendChallenge } from "../logic/online/socketLogic"
 
-export function WinnerModal ({winner, resetGame, gameState}) {
+export function WinnerModal ({winner, resetGame, gameState, onlineMatch}) {
 
   if(gameState == GAMESTATE.inprocess) return null
   const winnerText = winner != null ? 'Winner: ' : 'It is a draw!'
@@ -20,7 +22,15 @@ export function WinnerModal ({winner, resetGame, gameState}) {
          }
         
         <footer>
-          <button onClick={resetGame}>Start again</button>
+          {
+            onlineMatch.isPlaying
+            ?   
+              <div>
+                <button onClick={() => { onSendChallenge(socket, onlineMatch.rivalPlayer) }}>Challenge again</button>
+                <button onClick={resetGame}>Exit Online</button>
+              </div>
+            : <button onClick={resetGame}>Start again</button>
+          }
         </footer>
       </div>
     </section>

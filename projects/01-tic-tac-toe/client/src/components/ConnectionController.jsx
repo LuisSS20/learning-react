@@ -2,18 +2,33 @@ import { useState, useEffect } from 'react';
 import { socket } from '../socket';
 import { ConnectionStatus } from './ConnectionStatus'
 import ConnectionButton from './ConnectionButton';
-import DesconnectionButton from './DesconnectionButton';
+import DisconnectionButton from './DisconnectionButton';
 import { PlayerList } from './PlayerList';
 import ChallengeDialog from './ChallengeDialog'
 import AlertList from './AlertList'
 import { Alert, OnlineMatch } from '../logic/online/objects';
 import { TURNS } from '../constants';
 
-export const ConnectionController = ({isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers, setOnlineMatch}) => {
+export const ConnectionController = ({isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers, onlineMatch, setOnlineMatch, setBoard, setGameState, setTurn, setWinner, resetGame, winnerConffetti}) => {
 
   const [playersList, setPlayersList] = useState([])
   const [challengeRequestList, setChallengeRequestList] = useState([])
   const [alertsList, setAlertsList] = useState([])
+
+  const handleDisconnection = () => {
+    setIsConnected(false)
+    setSearchingPlayers(false)
+    setOnlineMatch(new OnlineMatch(false, '', null))
+
+    resetGame()
+    socket.disconnect()
+  }
+
+  const addNewAlert = (text) => {
+    setAlertsList((prevAlertsList) => {
+      return prevAlertsList.concat(new Alert(prevAlertsList.length, text))
+    })
+  }
 
   useEffect(() => {
     function onConnect() {
@@ -22,7 +37,15 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
     }
 
     function onDisconnect() {
-      setIsConnected(false)
+      // Check current online match to inform other player
+        console.log('entro', onlineMatch)
+        if(onlineMatch.isPlaying)
+      {
+        console.log('intento de envio de desconexion a otro jugador')
+        socket.emit('user disconnect from match', onlineMatch.rivalPlayer)
+      }
+
+      handleDisconnection()
       setAlertsList([])
       setPlayersList([])
       setChallengeRequestList([])
@@ -62,21 +85,30 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
       
       if(response)
       {
-        setAlertsList((prevAlertsList) => {
-          return prevAlertsList.concat(new Alert(prevAlertsList.length, fromPlayer + ' has accepted the challenge!'))
-        })
-        
+        addNewAlert(fromPlayer + ' has accepted the challenge!')
       }
       else {
-        setAlertsList((prevAlertsList) => {
-          return prevAlertsList.concat(new Alert(prevAlertsList.length, fromPlayer + ' has refused the challenge!'))
-        })
+        addNewAlert(fromPlayer + ' has refused the challenge!')
       }
     }
 
+    function onUserDisconnectFromMatch({fromPlayer}) {
+      addNewAlert(fromPlayer + ' has left the game!')
+    }
+
     function onStartMatch({rivalPlayer, firstTurn}){
-        // Set OnlineMatch
         setOnlineMatch(new OnlineMatch(true, rivalPlayer, firstTurn ? TURNS.X : TURNS.O))
+        resetGame()
+    }
+
+    function onUpdateMatch(matchData) {
+      console.log(matchData)
+      const {board, gameState, turn, winner} = matchData
+      setBoard(board)
+      setGameState(gameState)
+      setTurn(turn)
+      // Check if new winner, then show confetti 
+      winnerConffetti(winner)
     }
 
     socket.on('connect', onConnect)
@@ -87,6 +119,8 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
     socket.on('receive challenge', onReceiveChallenge)
     socket.on('challenge response', onChallengeResponse)
     socket.on('start match', onStartMatch)
+    socket.on('update match', onUpdateMatch)
+    socket.on('user disconnect from match', onUserDisconnectFromMatch)
 
     return () => {
       socket.off('connect', onConnect)
@@ -97,6 +131,8 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
       socket.off('receive challenge', onReceiveChallenge)
       socket.off('challenge response', onChallengeResponse)
       socket.off('start match', onStartMatch)
+      socket.off('update match', onUpdateMatch)
+      socket.off('user disconnect from match', onUserDisconnectFromMatch)
 
       socket.disconnect()
     };
@@ -109,12 +145,13 @@ export const ConnectionController = ({isConnected, setIsConnected, isSearchingPl
   return (
 
     <div>
-        {isSearchingPlayers && <PlayerList {...{isSearchingPlayers, setSearchingPlayers, playersList, setChallengeRequestList}}/>}
-        <section className='flex-items-centered'>
-        <ConnectionButton setSearchingPlayers={setSearchingPlayers}/>
+        {!onlineMatch.isPlaying && isSearchingPlayers && <PlayerList {...{isSearchingPlayers, setSearchingPlayers, playersList, setChallengeRequestList, handleDisconnection}}/>}
         <ConnectionStatus isConnected={isConnected}/>
+        {onlineMatch.rivalPlayer && <p><strong>Rival player: </strong>{onlineMatch.rivalPlayer}</p>}
+        <section className='flex-items-centered'>
+          <ConnectionButton setSearchingPlayers={setSearchingPlayers}/>
+          <DisconnectionButton handleDisconnection={handleDisconnection}/>
         </section>
-        {/* <DesconnectionButton setSearchingPlayers={setSearchingPlayers}/> */}
         {
           challengeRequestList && challengeRequestList.map(
             (rivalPlayerId) => {

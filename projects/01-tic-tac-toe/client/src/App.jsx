@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import confetti from 'canvas-confetti'
 import { Square } from './components/Square.jsx'
@@ -37,6 +37,15 @@ function App() {
     return winnerFromLocalStorage ? JSON.parse(winnerFromLocalStorage) : null
   })
 
+  function winnerConffetti(newWinner) {
+    if(newWinner && newWinner !== undefined)
+    {
+      confetti()
+      setWinner(newWinner)
+      setGameState(GAMESTATE.win)
+    }
+  }
+
   const resetGame = () => {
     setBoard(Array(9).fill(null))
     setGameState(GAMESTATE.inprocess)
@@ -44,24 +53,26 @@ function App() {
     setWinner(null)
     //Clean local storage
     clearStorage();
+
+    // If it is connected then disconect
+    disconnectSocket();
+  }
+
+  const disconnectSocket = () => {
+    if(isConnected)
+    {
+      socket.disconnect()
+    }
   }
 
   const updatedBoard = (index) =>{
     //To avoid overwrite square value
-    if(board[index] != null || gameState != GAMESTATE.inprocess) return
+    if(  onlineMatch.myTurn && turn != onlineMatch.myTurn || (board[index] != null || gameState != GAMESTATE.inprocess)) return
 
     const newBoard = [...board]
     newBoard[index] = turn
     setBoard(newBoard)
 
-    // Check winner
-    const newWinner = checkWinner(newBoard)
-    if(newWinner)
-    {
-      confetti()
-      setWinner(newWinner)
-      setGameState(GAMESTATE.win)
-    }
     // Check if it is a draw
     if(checkEndGame(newBoard))
     {
@@ -72,17 +83,25 @@ function App() {
     const newTurn = turn == TURNS.X ? TURNS.O : TURNS.X
     setTurn(newTurn)
 
-    // Save match 
-    saveStorage(newBoard, newTurn, gameState, newWinner)
+    // Check if new winner
+    const newWinner = checkWinner(newBoard)
+
+    // Check if new winner confetti
+    winnerConffetti(newWinner)
 
     // ONLINE PART
-    const matchData = createJSONToSend(socket.id, newBoard, newTurn, gameState, newWinner)
+    const matchData = createJSONToSend(socket.id, onlineMatch.rivalPlayer, newBoard, newTurn ? newTurn : null, gameState ? gameState : null, newWinner ? newWinner : null)
     console.log(matchData)
     if (matchData) {
-      socket.emit('match data', matchData);
+      socket.emit('update match', matchData);
     }
 
-    console.log(playersList)
+    // if new winner show dialog
+    // checkWinner(newWinner)
+    console.log(newWinner,'estoy')
+    
+    // Save match 
+    saveStorage(newBoard, newTurn, gameState, newWinner)
   }
 
   return (
@@ -112,10 +131,10 @@ function App() {
         </Square>
       </section>
 
-      <WinnerModal resetGame={resetGame} winner={winner} gameState={gameState}/>
+      <WinnerModal {...{resetGame, winner, gameState, onlineMatch}} />
       <div>
         {!isConnected && <button onClick={resetGame}>Start again</button>}
-        <ConnectionController {...{isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers, setOnlineMatch}} />
+        <ConnectionController {...{isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers, onlineMatch, setOnlineMatch, setBoard, setGameState, setTurn, setWinner, resetGame, winnerConffetti}} />
       </div>
 
     </main>
