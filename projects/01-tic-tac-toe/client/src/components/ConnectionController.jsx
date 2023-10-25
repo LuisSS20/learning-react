@@ -102,8 +102,9 @@ export const ConnectionController = ({username, setUsername, isConnected, setIsC
       setBoard(board)
       setGameState(gameState)
       setTurn(turn)
+      setWinner(winner)
       // Check if new winner, then show confetti 
-      winnerConffetti(winner)
+      // winnerConffetti(winner)
     }
 
     socket.on('connect', onConnect)

@@ -43,7 +43,11 @@ function App() {
   function winnerConffetti(newWinner) {
     if(newWinner && newWinner !== undefined)
     {
-      confetti()
+      // Only show confetti when player wins
+      if(!onlineMatch.isPlaying || (newWinner == onlineMatch.myTurn))
+      {
+        confetti()
+      }
       setWinner(newWinner)
       setGameState(GAMESTATE.win)
     }
@@ -70,7 +74,7 @@ function App() {
 
   const updatedBoard = (index) =>{
     //To avoid overwrite square value
-    if(  onlineMatch.myTurn && turn != onlineMatch.myTurn || (board[index] != null || gameState != GAMESTATE.inprocess)) return
+    if( onlineMatch.myTurn && turn != onlineMatch.myTurn || (board[index] != null || gameState != GAMESTATE.inprocess)) return
 
     const newBoard = [...board]
     newBoard[index] = turn
@@ -105,6 +109,13 @@ function App() {
     // Save match 
     saveStorage(newBoard, newTurn, gameState, newWinner)
   }
+
+  useEffect(() => {
+    if(winner)
+    {
+      winnerConffetti(winner)
+    }
+  }, [winner])
 
   return (
     <main>
