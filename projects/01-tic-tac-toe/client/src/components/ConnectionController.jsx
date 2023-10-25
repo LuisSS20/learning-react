@@ -18,6 +18,7 @@ export const ConnectionController = ({username, setUsername, isConnected, setIsC
   const handleDisconnection = () => {
     setIsConnected(false)
     setSearchingPlayers(false)
+    console.log(onlineMatch, 'online match')
     setOnlineMatch(new OnlineMatch(false, '', null))
     setUsername('')
 
@@ -38,15 +39,7 @@ export const ConnectionController = ({username, setUsername, isConnected, setIsC
     }
 
     function onDisconnect() {
-      // Check current online match to inform other player
-        if(onlineMatch.isPlaying)
-      {
-        console.log('intento de envio de desconexion a otro jugador')
-        socket.emit('user disconnect from match', onlineMatch.rivalPlayer)
-      }
-
       handleDisconnection()
-      setAlertsList([])
       setPlayersList([])
       setChallengeRequestList([])
     }
@@ -94,6 +87,7 @@ export const ConnectionController = ({username, setUsername, isConnected, setIsC
 
     function onUserDisconnectFromMatch({fromPlayer, fromUsername}) {
       addNewAlert(fromUsername + ' has left the game!')
+      onDisconnect()
     }
 
     function onStartMatch({rivalPlayer, rivalUsername, firstTurn}){
@@ -151,7 +145,7 @@ export const ConnectionController = ({username, setUsername, isConnected, setIsC
         {isConnected && <p><strong>Username:</strong> {username}</p>}
         <section className='flex-items-centered'>
           { !onlineMatch.isPlaying && <ConnectionButton {...{setSearchingPlayers, username, setUsername}}/>}
-          <DisconnectionButton handleDisconnection={handleDisconnection}/>
+          <DisconnectionButton onlineMatch={onlineMatch} handleDisconnection={handleDisconnection}/>
         </section>
         {
           challengeRequestList && challengeRequestList.map(

@@ -1,9 +1,13 @@
 import { socket } from '../socket';
 
-export const DisconnectionButton = ({text = 'Exit Online Mode', handleDisconnection}) => {
+export const DisconnectionButton = ({text = 'Exit Online Mode', handleDisconnection, onlineMatch}) => {
 
     const disconnect = () => {
-        handleDisconnection()
+        if(onlineMatch.isPlaying)
+        {
+            socket.emit('user disconnect from match', onlineMatch.rivalPlayer)
+        }
+        socket.disconnect()
     }
 
     return (

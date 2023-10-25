@@ -2,8 +2,6 @@ import express from 'express'
 import dotenv from 'dotenv'
 import http from 'http'
 import {Server} from 'socket.io'
-import { Console } from 'console'
-import { match } from 'assert'
 
 dotenv.config()
 const PORT = process.env.PORT
@@ -87,7 +85,7 @@ io.on('connect', (socket) => {
     })
 
     socket.on('user disconnect from match', (rivalPlayer) => {
-        socket.to(rivalPlayer).emit('user disconnect from match', {fromPlayer: socket.id})
+        socket.to(rivalPlayer).emit('user disconnect from match', {fromPlayer: socket.id, fromUsername: socket.username})
     })
 
     socket.onAny((event, ...args) => {
