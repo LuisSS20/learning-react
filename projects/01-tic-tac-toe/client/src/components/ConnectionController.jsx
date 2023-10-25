@@ -39,7 +39,6 @@ export const ConnectionController = ({username, setUsername, isConnected, setIsC
 
     function onDisconnect() {
       // Check current online match to inform other player
-        console.log('entro', onlineMatch)
         if(onlineMatch.isPlaying)
       {
         console.log('intento de envio de desconexion a otro jugador')
