@@ -1,6 +1,6 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import http from 'http'
+import http from 'https'
 import {Server} from 'socket.io'
 
 dotenv.config()
@@ -11,7 +11,8 @@ const app = express()
 const server = http.createServer(app)
 const io = new Server(server, {
     cors: {
-      origin: URL_CLIENT
+      origin: URL_CLIENT,
+      methods: ['GET', 'POST']
     }
   })
 
