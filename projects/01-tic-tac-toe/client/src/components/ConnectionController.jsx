@@ -8,6 +8,7 @@ import ChallengeDialog from './ChallengeDialog'
 import AlertList from './AlertList'
 import { Alert, OnlineMatch } from '../logic/online/objects';
 import { TURNS } from '../constants';
+import { removeDuplicates } from '../logic/utils';
 
 export const ConnectionController = ({username, setUsername, isConnected, setIsConnected, isSearchingPlayers, setSearchingPlayers, onlineMatch, setOnlineMatch, setBoard, setGameState, setTurn, setWinner, resetGame, winnerConffetti}) => {
 
@@ -67,10 +68,8 @@ export const ConnectionController = ({username, setUsername, isConnected, setIsC
 
     function onReceiveChallenge(rival) {
       setChallengeRequestList((prevChallengeList) => {
-        if(!prevChallengeList.includes(rival))
-          return [...prevChallengeList, rival]
-        else
-          return prevChallengeList
+        const newArray = [...prevChallengeList, rival];
+        return removeDuplicates(newArray)
       })
     }
 
