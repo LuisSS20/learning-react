@@ -28,6 +28,10 @@ const FollowMouse = () => {
 
   }, [enabled])
 
+  useEffect(() => {
+    document.body.classList.toggle('hide-cursor', enabled)
+  }, [enabled])
+
   return (
     <>
     <div style={{
@@ -43,7 +47,7 @@ const FollowMouse = () => {
       transform: `translate(${position.x}px, ${position.y}px)`
     }}/>
     <button onClick={ () => {setEnabled(!enabled)}}>
-      {enabled ? "Deactivate" : "Activate"} mouse pointer
+      {enabled ? "Deactivate" : "Activate"} mouse pointer following
     </button>
     </>
   )
