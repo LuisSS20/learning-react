@@ -28,6 +28,10 @@ body {
   box-sizing: border-box;
 }
 
+input {
+  padding: 5px;
+}
+
 main {
   display: flex;
   flex-direction: row;
