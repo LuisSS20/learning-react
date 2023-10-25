@@ -41,7 +41,7 @@ export const ChallengeDialog = ({socket, playerId, username, setChallengeRequest
 
     return (
         <div className={`footer-dialog ${show ? 'show' : ''}`}>
-            <h2>{username} has challenge you!</h2>
+            <h2>{username} has challenged you!</h2>
             <div>
                 <button onClick={() => {sendChallengeResponse(true)}}>Accept</button>
                 <button onClick={() => {sendChallengeResponse(false)}}>Decline</button>
