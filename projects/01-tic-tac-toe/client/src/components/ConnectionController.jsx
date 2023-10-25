@@ -150,7 +150,7 @@ export const ConnectionController = ({username, setUsername, isConnected, setIsC
         <ConnectionStatus isConnected={isConnected}/>
         {isConnected && <p><strong>Username:</strong> {username}</p>}
         <section className='flex-items-centered'>
-          <ConnectionButton {...{setSearchingPlayers, username, setUsername}}/>
+          { !onlineMatch.isPlaying && <ConnectionButton {...{setSearchingPlayers, username, setUsername}}/>}
           <DisconnectionButton handleDisconnection={handleDisconnection}/>
         </section>
         {
