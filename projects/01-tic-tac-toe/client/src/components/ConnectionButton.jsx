@@ -5,13 +5,20 @@ export const ConnectionButton = ({text='Go Online Mode', setSearchingPlayers, us
 
     const [isOpen, setIsOpen] = useState(false)
 
-    const accept = () => {
-        setIsOpen(true)
+    const connect = () => {
+
+        if(username && username != '')
+        {
+            closeDialog()
+            socket.auth = {username};
+            socket.connect()
+            setSearchingPlayers(true)
+        }
+        
     }
 
-    const connect = () => {
-        socket.connect()
-        setSearchingPlayers(true)
+    const accept = () => {
+        setIsOpen(true)
     }
 
     const closeDialog = () => {
@@ -22,14 +29,7 @@ export const ConnectionButton = ({text='Go Online Mode', setSearchingPlayers, us
         setUsername(event.target.value);
     };
 
-    useEffect( () => {
-        if(username)
-        {
-            setIsOpen(false)
-            connect()
-        }
-    }, [isOpen])
-
+    
     return (
         <>
             <button onClick={accept}>{text}</button>
@@ -39,7 +39,7 @@ export const ConnectionButton = ({text='Go Online Mode', setSearchingPlayers, us
                         <p><strong>Introduce your username</strong></p>
                         <input type="text" value={username} onChange={handleInputChange} />
                         <section className='flex-items-centered'>
-                        <button onClick={closeDialog}>Accept</button>
+                        <button onClick={connect}>Accept</button>
                         <button onClick={closeDialog}>Cancel</button>
                         </section>
                     </div>
