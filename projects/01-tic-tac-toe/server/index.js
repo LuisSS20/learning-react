@@ -30,10 +30,17 @@ function whoGoFirst(playerA, playerB)
     }
 }
 
+io.use((socket, next) => {
+    const username = socket.handshake.auth.username;
+    if (!username) {
+      return next(new Error("invalid username"));
+    }
+    socket.username = username;
+    next();
+});
+
 io.on('connect', (socket) => {
     
-    console.log('- A user connected')
-
     socket.on('disconnect', () => {
         console.log('- A user disconnected')
         // notify existing users
@@ -44,13 +51,15 @@ io.on('connect', (socket) => {
 
     socket.on('challenge player', ({toPlayer}) => {
         socket.to(toPlayer).emit('receive challenge', {
+            fromUsername: socket.username,
             fromPlayer: socket.id
         })
     })
 
-    socket.on('challenge response', ({toPlayer, response}) => {
+    socket.on('challenge response', ({toPlayer, toUsername, response}) => {
         socket.to(toPlayer).emit('challenge response', {
             fromPlayer: socket.id,
+            fromUsername: socket.username,
             response: response,
         })
 
@@ -61,11 +70,13 @@ io.on('connect', (socket) => {
 
             socket.emit('start match', {
                 rivalPlayer: toPlayer,
+                rivalUsername: toUsername,
                 firstTurn: socket.id === playerFirstTurn ? true : false
             })
 
             socket.to(toPlayer).emit('start match', {
                 rivalPlayer: socket.id,
+                rivalUsername: socket.username,
                 firstTurn: toPlayer === playerFirstTurn ? true : false
             })
         }
@@ -86,16 +97,19 @@ io.on('connect', (socket) => {
 })
 
 io.on('connection', (socket) => {
+
     const players = [];
     for (let [id, socket] of io.of("/").sockets) {
-    players.push({
-        playerId: id,
-    });
+        players.push({
+            username: socket.username,
+            playerId: id,
+        });
     }
     socket.emit("players", players);
 
     // notify existing users
     socket.broadcast.emit("user connected", {
+        username: socket.username,
         playerId: socket.id,
     });
 })

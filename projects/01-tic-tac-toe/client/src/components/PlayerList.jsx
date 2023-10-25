@@ -43,7 +43,7 @@ export function PlayerList ({isSearchingPlayers, setSearchingPlayers, playersLis
            {currentPlayers && currentPlayers.map((player, index) => {
             if (player) {
               return (
-                <ChallengePlayer sockeid={player.playerId} key={player.playerId}/>
+                <ChallengePlayer username={player.username} sockeid={player.playerId} key={player.playerId}/>
               );
             }
             return null;

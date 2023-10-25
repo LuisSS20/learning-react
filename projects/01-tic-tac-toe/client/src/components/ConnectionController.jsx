@@ -73,34 +73,34 @@ export const ConnectionController = ({username, setUsername, isConnected, setIsC
       })
     }
 
-    function onReceiveChallenge({fromPlayer}) {
+    function onReceiveChallenge(rival) {
       setChallengeRequestList((prevChallengeList) => {
-        if(!prevChallengeList.includes(fromPlayer))
-          return [...prevChallengeList, fromPlayer]
+        if(!prevChallengeList.includes(rival))
+          return [...prevChallengeList, rival]
         else
           return prevChallengeList
       })
     }
 
-    function onChallengeResponse({fromPlayer, response}) {
+    function onChallengeResponse({fromPlayer, fromUsername, response}) {
       
       if(response)
       {
-        addNewAlert(fromPlayer + ' has accepted the challenge!')
+        addNewAlert(fromUsername + ' has accepted the challenge!')
       }
       else {
-        addNewAlert(fromPlayer + ' has refused the challenge!')
+        addNewAlert(fromUsername + ' has refused the challenge!')
       }
     }
 
-    function onUserDisconnectFromMatch({fromPlayer}) {
-      addNewAlert(fromPlayer + ' has left the game!')
+    function onUserDisconnectFromMatch({fromPlayer, fromUsername}) {
+      addNewAlert(fromUsername + ' has left the game!')
     }
 
-    function onStartMatch({rivalPlayer, firstTurn}){
-        setOnlineMatch(new OnlineMatch(true, rivalPlayer, firstTurn ? TURNS.X : TURNS.O))
+    function onStartMatch({rivalPlayer, rivalUsername, firstTurn}){
+        setOnlineMatch(new OnlineMatch(true, rivalPlayer, rivalUsername, firstTurn ? TURNS.X : TURNS.O))
         resetGame()
-        addNewAlert(`New game against ${rivalPlayer} has started!`)
+        addNewAlert(`New game against ${rivalUsername} has started!`)
     }
 
     function onUpdateMatch(matchData) {
@@ -149,15 +149,16 @@ export const ConnectionController = ({username, setUsername, isConnected, setIsC
     <div>
         {!onlineMatch.isPlaying && isSearchingPlayers && <PlayerList {...{isSearchingPlayers, setSearchingPlayers, playersList, setChallengeRequestList, handleDisconnection}}/>}
         <ConnectionStatus isConnected={isConnected}/>
+        {isConnected && <p><strong>Username:</strong> {username}</p>}
         <section className='flex-items-centered'>
           <ConnectionButton {...{setSearchingPlayers, username, setUsername}}/>
           <DisconnectionButton handleDisconnection={handleDisconnection}/>
         </section>
         {
           challengeRequestList && challengeRequestList.map(
-            (rivalPlayerId) => {
+            (rivalPlayer) => {
               return (
-                <ChallengeDialog setOnlineMatch={setOnlineMatch} socket={socket} playerId={rivalPlayerId} setChallengeRequestList={setChallengeRequestList} key={rivalPlayerId}/>
+                <ChallengeDialog username={rivalPlayer.fromUsername} setOnlineMatch={setOnlineMatch} socket={socket} playerId={rivalPlayer.fromPlayer} setChallengeRequestList={setChallengeRequestList} key={rivalPlayer.fromPlayer}/>
               );
             }
           ) 

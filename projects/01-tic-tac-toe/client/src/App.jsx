@@ -101,7 +101,6 @@ function App() {
 
     // if new winner show dialog
     // checkWinner(newWinner)
-    console.log(newWinner,'estoy')
     
     // Save match 
     saveStorage(newBoard, newTurn, gameState, newWinner)
@@ -111,11 +110,11 @@ function App() {
     <main>
       { onlineMatch.isPlaying &&
         <section className='container-online-info'>
-          <h2>Online stats</h2>
+          <h2>Online info</h2>
           <div className='online-info'>
             <p>Your turn</p>
             <PlayerTurn onlineMatch={onlineMatch} />
-            {onlineMatch.rivalPlayer && <div><p><strong>Rival player</strong></p><p>{onlineMatch.rivalPlayer}</p></div>}
+            {onlineMatch.rivalPlayer && <div><p><strong>Rival player</strong></p><p>{onlineMatch.rivalUsername}</p></div>}
           </div>
         </section>
       }

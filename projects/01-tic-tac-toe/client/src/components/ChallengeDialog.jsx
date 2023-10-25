@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { OnlineMatch } from "../logic/online/objects";
 
-export const ChallengeDialog = ({socket, playerId, setChallengeRequestList, setOnlineMatch}) => {
+export const ChallengeDialog = ({socket, playerId, username, setChallengeRequestList, setOnlineMatch}) => {
 
     const [show, setShow] = useState(false)
     let showTimeOut;
@@ -34,13 +34,14 @@ export const ChallengeDialog = ({socket, playerId, setChallengeRequestList, setO
 
         socket.emit("challenge response", {
             toPlayer: playerId,
+            toUsername: username,
             response: accepted,
         });
     }
 
     return (
         <div className={`footer-dialog ${show ? 'show' : ''}`}>
-            <h2>{playerId} has challenge you!</h2>
+            <h2>{username} has challenge you!</h2>
             <div>
                 <button onClick={() => {sendChallengeResponse(true)}}>Accept</button>
                 <button onClick={() => {sendChallengeResponse(false)}}>Decline</button>
