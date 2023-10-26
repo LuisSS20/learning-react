@@ -6,7 +6,7 @@
 
 [[redirects]]
     from = "/*"
-    to = "/index.html"
+    to = "https://tictactoe-server-y3m9.onrender.com"
     status = 200
 
 [[headers]]
