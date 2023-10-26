@@ -3,8 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "projects/*",
+    "projects/*/*"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tic-tac-toe-client": "yarn workspace 01-tic-tac-toe build"
   },
   "repository": {
     "type": "git",

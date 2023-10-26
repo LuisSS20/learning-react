@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "01-tic-tac-toe-server",
   "version": "1.0.0",
   "description": "",
   "type": "module",
