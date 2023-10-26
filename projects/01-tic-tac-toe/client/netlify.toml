@@ -2,7 +2,7 @@
 # routing internally.
 [build]
     command = "yarn"
-    publish = "build" 
+    publish = "dist" 
 
 [[redirects]]
     from = "/*"
