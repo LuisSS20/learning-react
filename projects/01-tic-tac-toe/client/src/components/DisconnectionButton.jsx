@@ -7,6 +7,7 @@ export const DisconnectionButton = ({text = 'Exit Online Mode', handleDisconnect
         {
             socket.emit('user disconnect from match', onlineMatch.rivalPlayer)
         }
+        handleDisconnection()
         socket.disconnect()
     }
 
