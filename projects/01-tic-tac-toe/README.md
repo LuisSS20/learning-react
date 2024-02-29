@@ -16,7 +16,7 @@
 
 #### Players list screen
 
-<img src="img/playerlist.PNG" width="300"/>
+<img src="img/playerlist.PNG" width="600"/>
 
 #### Challenge notification
 
@@ -24,4 +24,4 @@
 
 #### Match screen
 
-<img src="img/match.PNG" width="300"/>
+<img src="img/match.PNG" width="600"/>
