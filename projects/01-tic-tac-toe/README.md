@@ -4,11 +4,11 @@
 
 #### Main screen
 
-<img src="img/principal.png" width="300"/>
+<img src="img/principal.PNG" width="300"/>
 
 #### Username screen
 
-<img src="img/username.png" width="300"/>
+<img src="img/username.PNG" width="300"/>
 
 #### Looking players screen
 
@@ -16,12 +16,12 @@
 
 #### Players list screen
 
-<img src="img/playerlist.png" width="300"/>
+<img src="img/playerlist.PNG" width="300"/>
 
 #### Challenge notification
 
-<img src="img/challenge.png" width="300"/>
+<img src="img/challenge.PNG" width="300"/>
 
 #### Match screen
 
-<img src="img/match.png" width="300"/>
+<img src="img/match.PNG" width="300"/>
