@@ -1,8 +1,27 @@
-# React + Vite
+# Online TicTacToe
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Screens
 
-Currently, two official plugins are available:
+#### Main screen
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<img src="img/principal.png" width="300"/>
+
+#### Username screen
+
+<img src="img/username.png" width="300"/>
+
+#### Looking players screen
+
+<img src="img/lookingplayers.png" width="300"/>
+
+#### Players list screen
+
+<img src="img/playerlist.png" width="300"/>
+
+#### Challenge notification
+
+<img src="img/challenge.png" width="300"/>
+
+#### Match screen
+
+<img src="img/match.png" width="300"/>
