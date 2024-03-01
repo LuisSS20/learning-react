@@ -2,7 +2,7 @@
 
 ## Play the game!
 
-[https://eclectic-elf-70b1f7.netlify.app/]Click to play
+[Clik to play](https://eclectic-elf-70b1f7.netlify.app/)
 
 ## Screens
 
