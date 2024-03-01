@@ -1,5 +1,9 @@
 # Online TicTacToe
 
+## Play the game!
+
+[https://eclectic-elf-70b1f7.netlify.app/]Click to play
+
 ## Screens
 
 #### Main screen
