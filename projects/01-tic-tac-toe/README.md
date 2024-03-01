@@ -2,7 +2,7 @@
 
 ## Play the game!
 
-(Online server may response slowly, wait a few seconds before reach players)
+(Online server may response slowly, wait a few seconds before reach players)\
 [Clik to play](https://eclectic-elf-70b1f7.netlify.app/)
 
 ## Screens
